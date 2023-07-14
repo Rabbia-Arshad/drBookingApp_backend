@@ -1,0 +1,569 @@
+{
+	"info": {
+		"_postman_id": "754a81f7-0eb2-4b7b-b415-e51835985880",
+		"name": "Doctor Booking App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17487284",
+		"_collection_link": "https://www.postman.com/triotos/workspace/public/collection/17487284-754a81f7-0eb2-4b7b-b415-e51835985880?action=share&creator=17487284&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get_Dr",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/reviews/dr/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reviews",
+								"dr",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/reviews/pa/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reviews",
+								"pa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_Pa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/reviews/pa/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reviews",
+								"pa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dr_id\": 2,\n    \"pa_id\": 1,\n    \"rating\" : 4,\n    \"review\" : \"Good oneherer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reviews/pa/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reviews",
+								"pa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dr_id\": 2,\n    \"pa_id\": 1,\n    \"rating\" : 3.5,\n    \"review\" : \"Good one\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/reviews/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"reviews",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get_dr",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/dr/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"dr",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_pa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/pa/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"pa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dr_id\": 1,\n    \"event\": \"Cancel event\",\n    \"detail\":\"Booking cancel\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/notifications/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Earnings",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/earnings/dr/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"earnings",
+								"dr",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dr_id\": 1,\n    \"pa_id\": 2,\n    \"visit_id\": 1,\n    \"charges\": 500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/earnings/dr/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"earnings",
+								"dr",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "dr_users",
+					"item": [
+						{
+							"name": "List",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"search\" : \"updated\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/drUsers/list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"drUsers",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/drUsers/list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"drUsers",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"f_name\":\"dummy5\",\n   \"l_name\":\"dr\",\n   \"phone_no\":\"234522232789\",\n   \"email\":\"uyerue\",\n   \"address\":\"dummy address\",\n   \"gender\":\"male\",\n   \"profession\":\"dr\",\n   \"hospital\":\"here\",\n   \"experience\":\"2\",\n   \"fee\":12\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/drusers/add",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"drusers",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"f_name\":\"dummy5_updated\",\n   \"l_name\":\"dr\",\n   \"phone_no\":\"234522232789\",\n   \"email\":\"uyerue\",\n   \"address\":\"dummy address\",\n   \"gender\":\"male\",\n   \"profession\":\"dr\",\n   \"hospital\":\"here\",\n   \"experience\":\"2\",\n   \"fee\":12\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/drUsers/7",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"drUsers",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/drUsers/7",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"drUsers",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "pa_users",
+					"item": [
+						{
+							"name": "List",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"search\" : \"updated\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/paUsers/list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"paUsers",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/paUsers/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"paUsers",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"f_name\":\"pateint1\",\n   \"l_name\":\"sammy\",\n   \"phone_no\":\"234522232789\",\n   \"email\":\"uyerue\",\n   \"address\":\"dummy address\",\n   \"gender\":\"male\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/paUsers/add",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"paUsers",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \"f_name\":\"dummy5_updated\",\n   \"l_name\":\"dr\",\n   \"phone_no\":\"234522232789\",\n   \"email\":\"uyerue\",\n   \"address\":\"dummy address\",\n   \"gender\":\"male\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/paUsers/7",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"paUsers",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/paUsers/7",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"paUsers",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Visits",
+			"item": [
+				{
+					"name": "Get_dr",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/visits/dr/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"visits",
+								"dr",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_pa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/visits/pa/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"visits",
+								"pa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dr_id\":1,\n    \"pa_id\":2,\n    \"visit_no\":122,\n    \"charges\":500,\n    \"detail\":{\n        \"day\": \"Monday\",\n        \"from\": \"12:00\",\n        \"to\": \"14:00\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/visits/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"visits",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
