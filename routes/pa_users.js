@@ -42,11 +42,7 @@ router.post('/add', (req, res) => {
         phone_no,
         email,
         address,
-        gender,
-        profession,
-        hospital,
-        experience,
-        fee,
+        gender
     } = req.body;
     
     const user = {
@@ -55,11 +51,7 @@ router.post('/add', (req, res) => {
         phone_no,
         email,
         address,
-        gender,
-        profession,
-        hospital,
-        experience,
-        fee
+        gender
     };
     
     db.query('INSERT INTO pa_users SET ?', user, (error, result) => {
@@ -81,12 +73,8 @@ router.put('/:id', (req, res) => {
         l_name,
         phone_no,
         email,
-        address,
         gender,
-        profession,
-        hospital,
-        experience,
-        fee,
+        address,
     } = req.body;
     
     
@@ -95,12 +83,8 @@ router.put('/:id', (req, res) => {
         l_name,
         phone_no,
         email,
-        address,
         gender,
-        profession,
-        hospital,
-        experience,
-        fee
+        address,
     };
     
     db.query('UPDATE pa_users SET ? WHERE id = ?', [user, id], (error, result) => {
@@ -118,7 +102,6 @@ router.put('/:id', (req, res) => {
 
 // Delete a user
 router.delete('/:id', (req, res) => {
-    console.log("here in delete");
     const { id } = req.params;
     db.query('DELETE FROM pa_users WHERE id = ?', [id], (error, result) => {
         if (error) {

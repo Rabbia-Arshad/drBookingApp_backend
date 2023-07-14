@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host:'localhost',
-	user:'username', //Your Database User Name
+	user:'sammy', //Your Database User Name
 	password: 'password', // Your Database Password
 	database:'booking_app'
 });

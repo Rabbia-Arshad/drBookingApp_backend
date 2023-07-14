@@ -3,9 +3,21 @@ var router = express.Router();
 var db  = require('../config/db');
 
 
-// display user page
-router.get('/list', (req, res)=> {
-    db.query('SELECT * FROM dr_users ORDER BY id asc',function(err,rows) {
+// Get list of doctor
+router.post('/list', (req, res)=> {
+    const { search } = req.body;
+    var query = 'SELECT * FROM dr_users'
+    var where;
+    if (search !== null && search !== undefined){
+        where = ` WHERE f_name LIKE ('%${search}%')`;
+        where += ` OR l_name LIKE ('%${search}%')`;
+        where += ` OR address LIKE ('%${search}%')`;
+        where += ` OR profession LIKE ('%${search}%')`;
+        where += ` OR hospital LIKE ('%${search}%')`;
+    }
+    query =  query + where + ' ORDER BY id asc'
+
+    db.query(query, function(err,rows) {
         if(err) {
             res.status('err',err);   
         } else {
