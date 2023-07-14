@@ -69,6 +69,8 @@ router.post('/dr/check', (req, res) => {
                 res.json(doctor);
             }
             });
+        }else{
+            res.status(404).json({ error: 'Authentication Failed' });
         }
       }
     });
@@ -100,6 +102,8 @@ router.post('/pa/check', (req, res) => {
                 res.json(doctor);
             }
             });
+        }else{
+            res.status(401).json({ error: 'Authentication Failed' });
         }
       }
     });

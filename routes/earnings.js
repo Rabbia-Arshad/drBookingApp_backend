@@ -3,7 +3,7 @@ var router = express.Router();
 var db  = require('../config/db');
 
 //Add Doctor earning
-router.post('/dr/:id', (req, res) => {
+router.post('/dr/add', (req, res) => {
     const { dr_id, pa_id, visit_id, charges } = req.body;
   
     const earnings = {
@@ -23,7 +23,7 @@ router.post('/dr/:id', (req, res) => {
     });
 });
 
-// Get Doctor Earning
+// Get Doctor Earnings
 router.get('/dr/:id', (req, res) => {
     const { id } = req.params;
     db.query('SELECT * FROM earnings WHERE dr_id = ?', [id], (error, results) => {
@@ -33,7 +33,7 @@ router.get('/dr/:id', (req, res) => {
       } else if (results.length === 0) {
         res.status(404).json({ error: 'No record found' });
       } else {
-        res.json(results[0]);
+        res.json(results);
       }
     });
 });

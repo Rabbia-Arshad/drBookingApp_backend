@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db  = require('../config/db');
-const { route } = require('./dr_users');
-
 
 //Add Visit
 router.post('/add', (req, res) => {

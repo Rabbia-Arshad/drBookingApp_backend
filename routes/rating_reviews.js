@@ -6,7 +6,6 @@ var db  = require('../config/db');
 //Get Doctor Reviews by Doctor id
 router.get('/dr/:id', (req, res) => {
     const { id } = req.params;
-    console.log("here we are", id);
     db.query('SELECT * FROM rating_reviews WHERE dr_id = ?', [id], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
@@ -23,7 +22,6 @@ router.get('/dr/:id', (req, res) => {
 //Get Patient Given Reviews Patient id
 router.get('/pa/:id', (req, res) => {
     const { id } = req.params;
-    console.log("here we are", id);
     db.query('SELECT * FROM rating_reviews WHERE pa_id = ?', [id], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);

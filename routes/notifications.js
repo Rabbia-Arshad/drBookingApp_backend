@@ -3,10 +3,10 @@ var router = express.Router();
 var db  = require('../config/db');
 
 
-//Get Doctor related Notifications
+//Get Doctor related & General Notifications
 router.get('/dr/:id', (req, res) => {
     const { id } = req.params;
-    db.query('SELECT * FROM notifications WHERE dr_id = ?', [id], (error, results) => {
+    db.query('SELECT * FROM notifications WHERE dr_id = ? OR (dr_id is Null AND pa_id is Null)', [id], (error, results) => {
       if (error) {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Something went wrong' });
@@ -19,10 +19,10 @@ router.get('/dr/:id', (req, res) => {
 });
 
 
-//Get Patient related Notifications
+//Get Patient related & General Notifications
 router.get('/pa/:id', (req, res) => {
     const { id } = req.params;
-    db.query('SELECT * FROM notifications WHERE pa_id = ?', [id], (error, results) => {
+    db.query('SELECT * FROM notifications WHERE pa_id = ? OR (dr_id is Null AND pa_id is Null)', [id], (error, results) => {
       if (error) {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Something went wrong' });

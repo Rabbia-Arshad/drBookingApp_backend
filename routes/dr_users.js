@@ -130,7 +130,6 @@ router.put('/:id', (req, res) => {
 
 // Delete a user
 router.delete('/:id', (req, res) => {
-    console.log("here in delete");
     const { id } = req.params;
     db.query('DELETE FROM dr_users WHERE id = ?', [id], (error, result) => {
         if (error) {
