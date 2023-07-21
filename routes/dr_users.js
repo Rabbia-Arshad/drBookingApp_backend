@@ -45,6 +45,22 @@ router.get('/:id', (req, res) => {
     });
 });
 
+
+// Get a specific user on basis of Phone-No
+router.post('/detail', (req, res) => {
+    const { phone_no } = req.body;
+    db.query('SELECT * FROM dr_users WHERE phone_no = ?', [phone_no], (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).json({ error: 'Something went wrong' });
+        } else if (results.length === 0) {
+            res.status(404).json({ error: 'User not found' });
+        } else {
+            res.json(results[0]);
+        }
+    });
+});
+
   
 // Create a new user
 router.post('/add', (req, res) => {
