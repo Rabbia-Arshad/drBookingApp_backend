@@ -4,7 +4,7 @@ var db  = require('../config/db');
 
 
 // Fetch popular doctors based on reviews and ratings
-router.post('/popular_doctors/list', (req, res) => {
+router.get('/popular_doctors/list', (req, res) => {
     const popularDoctorsQuery = `
       SELECT dr_users.*, COUNT(rating_reviews.id) AS review_count, AVG(rating_reviews.rating) AS avg_rating
       FROM dr_users
