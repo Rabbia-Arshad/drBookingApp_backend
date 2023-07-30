@@ -4,13 +4,14 @@ var db  = require('../config/db');
 
 //Add Visit
 router.post('/add', (req, res) => {
-    const { dr_id, pa_id, visit_no, charges, detail} = req.body;
+    const { dr_id, pa_id, visit_no, charges, start_date_time, detail} = req.body;
   
     const visits = {
       dr_id,
       pa_id,
       visit_no,
       charges,
+      start_date_time,
       detail: JSON.stringify(detail),
     };
   
@@ -60,13 +61,14 @@ router.get('/pa/:id', (req, res) => {
 //Update Visit detail
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { dr_id, pa_id, visit_no, charges, detail, is_pending, is_done, is_rejected } = req.body;
-  
+    const { dr_id, pa_id, visit_no, charges, start_date_time, detail, is_pending, is_done, is_rejected } = req.body;
+   
     const notification = {
       dr_id,
       pa_id,
       visit_no,
       charges, 
+      start_date_time,
       detail, 
       is_pending, 
       is_done, 
