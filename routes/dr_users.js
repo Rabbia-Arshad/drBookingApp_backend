@@ -36,7 +36,6 @@ router.post('/list', (req, res)=> {
     var query = `SELECT dr.*, COUNT(rating_reviews.id) AS review_count, AVG(rating_reviews.rating) AS avg_rating
                 FROM dr_users dr
                 LEFT JOIN rating_reviews ON dr.id = rating_reviews.dr_id
-                GROUP BY dr.id
                 `
     var where = "";
     if (search !== null && search !== undefined){
@@ -45,8 +44,9 @@ router.post('/list', (req, res)=> {
         where += ` OR dr.address LIKE ('%${search}%')`;
         where += ` OR dr.profession LIKE ('%${search}%')`;
         where += ` OR dr.hospital LIKE ('%${search}%')`;
-    }
-    query =  query + where + ' ORDER BY review_count DESC, avg_rating DESC'
+    }          
+    
+    query =  query + where + ' GROUP BY dr.id  ORDER BY review_count DESC, avg_rating DESC'
     db.query(query, function(err,rows) {
         if(err) {
             res.status('err',err);   
