@@ -77,7 +77,7 @@ router.get('/:id', (req, res) => {
 
 
 // Get a specific user on basis of Phone-No
-router.post('/detail', (req, res) => {
+router.post('/auth', (req, res) => {
     const { phone_no } = req.body;
     db.query('SELECT * FROM dr_users WHERE phone_no = ?', [phone_no], (error, results) => {
         if (error) {
@@ -199,7 +199,7 @@ router.delete('/:id', (req, res) => {
 
 
 // Fetch doctor details from dr_users table
-router.get('/details/:id', (req, res) => {
+router.get('/detail/:id', (req, res) => {
     const { id } = req.params;
     db.query('SELECT * FROM dr_users WHERE id = ?', [id], (error, drResults) => {
       if (error) {
@@ -247,5 +247,40 @@ router.get('/details/:id', (req, res) => {
       }
     });
 });
+
+
+router.get('/profession/list', (req, res) => {
+    const query = 'SELECT DISTINCT profession FROM dr_users';
   
+    db.query(query, (error, results) => {
+      if (error) {
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Something went wrong' });
+      } else {
+        const doctorsByProfession = {};
+  
+        // Fetch data for each unique profession type
+        results.forEach((result) => {
+          const profession = result.profession;
+          const professionQuery = 'SELECT * FROM dr_users WHERE profession = ?';
+  
+          db.query(professionQuery, [profession], (error, professionResults) => {
+            if (error) {
+              console.error('Error executing query:', error);
+              res.status(500).json({ error: 'Something went wrong' });
+            } else {
+              doctorsByProfession[profession] = professionResults;
+  
+              // Check if all unique profession types have been fetched
+              if (Object.keys(doctorsByProfession).length === results.length) {
+                res.json(doctorsByProfession);
+              }
+            }
+          });
+        });
+      }
+    });
+});
+  
+
 module.exports = router;
