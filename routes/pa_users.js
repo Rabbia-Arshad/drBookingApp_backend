@@ -9,9 +9,13 @@ router.get('/list', (req, res)=> {
         if(err) {
             res.status('err',err);   
         } else {
+            const patientList = rows.map((user) => {
+                const imageData = (user.img !==null) ? user.img.toString('base64') : user.img
+                return { ...user, img: imageData };
+            });
             res.status(200).send({
             message: "Data fetched successfully",
-            data: rows
+            data: patientList
             });
         }
     });
@@ -28,7 +32,7 @@ router.get('/:id', (req, res) => {
         } else if (results.length === 0) {
             res.status(404).json({ error: 'User not found' });
         } else {
-            res.json(results[0]);
+            res.json({...results[0], img: (results[0].img !==null) ? results[0].img.toString('base64') : results[0].img});
         }
     });
 });
@@ -58,16 +62,20 @@ router.post('/add', (req, res) => {
         phone_no,
         email,
         address,
-        gender
+        gender,
+        image
     } = req.body;
     
+    const img = Buffer.from(image, 'base64');
+
     const user = {
         f_name,
         l_name,
         phone_no,
         email,
         address,
-        gender
+        gender,
+        img
     };
     
     db.query('INSERT INTO pa_users SET ?', user, (error, result) => {
@@ -91,8 +99,10 @@ router.put('/:id', (req, res) => {
         email,
         gender,
         address,
+        image
     } = req.body;
     
+    const img = Buffer.from(image, 'base64');
     
     const user = {
         f_name,
@@ -101,6 +111,7 @@ router.put('/:id', (req, res) => {
         email,
         gender,
         address,
+        img
     };
     
     db.query('UPDATE pa_users SET ? WHERE id = ?', [user, id], (error, result) => {

@@ -4,8 +4,8 @@ var db  = require('../config/db');
 
 //Add Visit
 router.post('/add', (req, res) => {
-    const { dr_id, pa_id, visit_no, charges, start_date_time, detail} = req.body;
-  
+    const { dr_id, pa_id, visit_no, charges, date_time, detail} = req.body;
+    const start_date_time = new Date(date_time)
     const visits = {
       dr_id,
       pa_id,
@@ -29,7 +29,9 @@ router.post('/add', (req, res) => {
 // Get Doctor Visits
 router.get('/dr/:id', (req, res) => {
     const { id } = req.params;
-    db.query('SELECT * FROM visits WHERE dr_id = ?', [id], (error, results) => {
+    db.query('SELECT * FROM visits \
+              LEFT JOIN dr_users ON dr_id = dr_users.id  \
+              WHERE dr_id = ?', [id], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).json({ error: 'Something went wrong' });
@@ -45,7 +47,9 @@ router.get('/dr/:id', (req, res) => {
 // Get Patient Visits
 router.get('/pa/:id', (req, res) => {
     const { id } = req.params;
-    db.query('SELECT * FROM visits WHERE pa_id = ?', [id], (error, results) => {
+    db.query('SELECT * FROM visits \
+            LEFT JOIN pa_users ON pa_id = pa_users.id  \
+            WHERE pa_id = ?', [id], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).json({ error: 'Something went wrong' });
@@ -61,7 +65,8 @@ router.get('/pa/:id', (req, res) => {
 //Update Visit detail
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { dr_id, pa_id, visit_no, charges, start_date_time, detail, is_pending, is_done, is_rejected } = req.body;
+    const { dr_id, pa_id, visit_no, charges, date_time, detail, is_pending, is_done, is_rejected } = req.body;
+    const start_date_time = new Date(date_time);
    
     const notification = {
       dr_id,
@@ -82,7 +87,7 @@ router.put('/:id', (req, res) => {
       } else if (result.affectedRows === 0) {
         res.status(404).json({ error: 'Notification not found' });
       } else {
-        res.json({ message: 'Visit updated successfully', data: result });
+        res.json({ message: 'Visit updated successfully' });
       }
     });
 });

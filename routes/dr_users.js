@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db  = require('../config/db');
-
+router.use(express.json({ limit: '10mb' })); // Adjust the limit based on your image size requirements
 
 // Fetch popular doctors based on reviews and ratings
 router.get('/popular_doctors/list', (req, res) => {
@@ -15,16 +15,19 @@ router.get('/popular_doctors/list', (req, res) => {
       LIMIT 10;
     `;
   
-    db.query(popularDoctorsQuery, (error, popularDoctors) => {
+    db.query(popularDoctorsQuery, (error, rows) => {
       if (error) {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Something went wrong' });
       } else {
+            const popularDoctors = rows.map((user) => {
+              const imageData = (user.img !==null) ? user.img.toString('base64') : user.img
+              return { ...user, img: imageData };
+            });
             res.status(200).send({
             message: "Data fetched successfully",
             data: popularDoctors
             });
-            // res.json(popularDoctors);
         }
     });
 });
@@ -51,9 +54,13 @@ router.post('/list', (req, res)=> {
         if(err) {
             res.status('err',err);   
         } else {
+            const drUsersList = rows.map((user) => {
+              const imageData = (user.img !==null) ? user.img.toString('base64') : user.img
+              return { ...user, img: imageData };
+            });
             res.status(200).send({
             message: "Data fetched successfully",
-            data: rows
+            data: drUsersList
             });
         }
     });
@@ -70,7 +77,7 @@ router.get('/:id', (req, res) => {
         } else if (results.length === 0) {
             res.status(404).json({ error: 'User not found' });
         } else {
-            res.json(results[0]);
+            res.json({...results[0], img: (results[0].img !==null) ? results[0].img.toString('base64') : results[0].img});
         }
     });
 });
@@ -107,8 +114,12 @@ router.post('/add', (req, res) => {
         hospital,
         experience,
         fee,
+        image
     } = req.body;
     
+    // Convert the base64 image data to a buffer
+    const img = Buffer.from(image, 'base64');
+
     const user = {
         f_name,
         l_name,
@@ -121,7 +132,8 @@ router.post('/add', (req, res) => {
         profession,
         hospital,
         experience,
-        fee
+        fee,
+        img
     };
     
     db.query('INSERT INTO dr_users SET ?', user, (error, result) => {
@@ -151,8 +163,10 @@ router.put('/:id', (req, res) => {
         hospital,
         experience,
         fee,
+        image
     } = req.body;
-    
+    // Convert the base64 image data to a buffer
+    const img = Buffer.from(image, 'base64');
     
     const user = {
         f_name,
@@ -166,7 +180,8 @@ router.put('/:id', (req, res) => {
         profession,
         hospital,
         experience,
-        fee
+        fee,
+        img
     };
     
     db.query('UPDATE dr_users SET ? WHERE id = ?', [user, id], (error, result) => {
@@ -208,7 +223,8 @@ router.get('/detail/:id', (req, res) => {
       } else if (drResults.length === 0) {
         res.status(404).json({ error: 'Doctor not found' });
       } else {
-        const doctor = drResults[0];
+        var doctor = drResults[0];
+        doctor.img = (doctor.img !==null) ? doctor.img.toString('base64') : doctor.img // Convert the image buffer to a base64 string
   
         // Fetch count of rating reviews and average rating from rating_reviews table
         db.query('SELECT COUNT(*) AS review_count, AVG(rating) AS avg_rating FROM rating_reviews WHERE dr_id = ?', [id], (error, ratingResults) => {
