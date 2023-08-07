@@ -28,10 +28,21 @@ router.post('/add', (req, res) => {
 
 // Get Doctor Visits
 router.get('/dr/:id', (req, res) => {
-    const { id } = req.params;
-    db.query('SELECT * FROM visits \
-              LEFT JOIN dr_users ON dr_id = dr_users.id  \
-              WHERE dr_id = ?', [id], (error, results) => {
+    const { id} = req.params;
+    const { pending, rejected, done } = req.query
+    var query = 'SELECT * FROM visits \
+                LEFT JOIN dr_users ON dr_id = dr_users.id  \
+                WHERE dr_id = ?'
+    if (pending!== null && pending!== undefined){
+      query += " AND is_pending= " + pending
+    }
+    if (rejected!== null && rejected!== undefined){
+      query += " AND is_rejected= " + rejected
+    }
+    if (done!== null && done!== undefined){
+      query += " AND is_done= " + done
+    }
+    db.query(query, [id], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).json({ error: 'Something went wrong' });
@@ -47,9 +58,20 @@ router.get('/dr/:id', (req, res) => {
 // Get Patient Visits
 router.get('/pa/:id', (req, res) => {
     const { id } = req.params;
-    db.query('SELECT * FROM visits \
-            LEFT JOIN pa_users ON pa_id = pa_users.id  \
-            WHERE pa_id = ?', [id], (error, results) => {
+    const { pending, rejected, done } = req.query
+    var query = 'SELECT * FROM visits \
+                LEFT JOIN pa_users ON pa_id = pa_users.id  \
+                WHERE pa_id = ?'
+    if (pending!== null && pending!== undefined){
+      query += " AND is_pending= " + pending
+    }
+    if (rejected!== null && rejected!== undefined){
+      query += " AND is_rejected= " + rejected
+    }
+    if (done!== null && done!== undefined){
+      query += " AND is_done= " + done
+    }
+    db.query(query, [id], (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             res.status(500).json({ error: 'Something went wrong' });
