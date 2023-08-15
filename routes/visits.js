@@ -31,7 +31,7 @@ router.get('/dr/:id', (req, res) => {
     const { id} = req.params;
     const { pending, rejected, done } = req.query
     var query = 'SELECT * FROM visits \
-                LEFT JOIN dr_users ON dr_id = dr_users.id  \
+                LEFT JOIN pa_users ON pa_id = pa_users.id  \
                 WHERE dr_id = ?'
     if (pending!== null && pending!== undefined){
       query += " AND is_pending= " + pending
@@ -60,7 +60,7 @@ router.get('/pa/:id', (req, res) => {
     const { id } = req.params;
     const { pending, rejected, done } = req.query
     var query = 'SELECT * FROM visits \
-                LEFT JOIN pa_users ON pa_id = pa_users.id  \
+                LEFT JOIN dr_users ON dr_id = dr_users.id  \
                 WHERE pa_id = ?'
     if (pending!== null && pending!== undefined){
       query += " AND is_pending= " + pending

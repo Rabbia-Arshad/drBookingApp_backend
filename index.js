@@ -8,6 +8,7 @@ const notificationsRouter = require('./routes/notifications');
 const visitsRouter = require('./routes/visits');
 const earningsRouter = require('./routes/earnings');
 const availabilityRouter = require('./routes/availability');
+const branchesRouter = require('./routes/dr_branches');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/notifications', notificationsRouter);
 app.use('/visits', visitsRouter);
 app.use('/earnings', earningsRouter);
 app.use('/availability', availabilityRouter);
+app.use('/branches', branchesRouter);
 
 // PORT
 const port = process.env.PORT || 3000;

@@ -44,7 +44,6 @@ router.post('/list', (req, res)=> {
     if (search !== null && search !== undefined){
         where = ` WHERE dr.f_name LIKE ('%${search}%')`;
         where += ` OR dr.l_name LIKE ('%${search}%')`;
-        where += ` OR dr.address LIKE ('%${search}%')`;
         where += ` OR dr.profession LIKE ('%${search}%')`;
         where += ` OR dr.hospital LIKE ('%${search}%')`;
     }          
@@ -106,9 +105,7 @@ router.post('/add', (req, res) => {
         l_name,
         phone_no,
         email,
-        address,
-        lat,
-        lng,
+        branches,
         gender,
         profession,
         hospital,
@@ -125,9 +122,6 @@ router.post('/add', (req, res) => {
         l_name,
         phone_no,
         email,
-        lat,
-        lng,
-        address,
         gender,
         profession,
         hospital,
@@ -141,7 +135,31 @@ router.post('/add', (req, res) => {
             console.error('Error executing query:', error);
             res.status(500).json({ error: 'Something went wrong' });
         } else {
-            res.status(201).json({ message: 'User created successfully', id: result.insertId });
+          const drId = result.insertId; // Get the generated dr_id
+
+          // Insert branches into the branches table
+          const insertBranchQuery = 'INSERT INTO dr_branches (dr_id, name, address, lat, lng) VALUES (?, ?, ?, ?, ?)';
+
+          const branchInsertPromises = Object.values(branches).map((branch) => {
+            return new Promise((resolve, reject) => {
+              db.query(insertBranchQuery, [drId, branch.name, branch.address, branch.lat, branch.lng], (branchInsertError, branchResult) => {
+                if (branchInsertError) {
+                  reject(branchInsertError);
+                } else {
+                  resolve(branchResult);
+                }
+              });
+            });
+          });
+
+          Promise.all(branchInsertPromises)
+            .then(() => {
+              res.status(201).json({ message: 'Doctor and branches added successfully.', id: result.insertId  });
+            })
+            .catch((branchInsertError) => {
+              console.error('Error inserting branches:', branchInsertError);
+              res.status(200).json({ message: 'Doctor Added Successfully, In Branches Something went wrong', id: result.insertId  });
+            });
         }
     });
 });
@@ -155,9 +173,6 @@ router.put('/:id', (req, res) => {
         l_name,
         phone_no,
         email,
-        address,
-        lat,
-        lng,
         gender,
         profession,
         hospital,
@@ -173,9 +188,6 @@ router.put('/:id', (req, res) => {
         l_name,
         phone_no,
         email,
-        address,
-        lat,
-        lng,
         gender,
         profession,
         hospital,
