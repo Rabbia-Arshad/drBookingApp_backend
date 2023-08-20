@@ -254,17 +254,20 @@ router.get('/detail/:id', (req, res) => {
                 res.status(500).json({ error: 'Something went wrong' });
               } else {
                 doctor.total_earning = earningResults[0].total_earning || 0;
-  
                 // Fetch upcoming visits from visits table with day and time greater than current date and time
                 const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Convert to MySQL datetime format
-                console.log("currentDate1", currentDate)
-                db.query('SELECT * FROM visits WHERE dr_id = ? AND is_done = 0 AND is_rejected = 0 AND start_date_time > ?', [id, currentDate], (error, visitResults) => {
+                db.query('SELECT visits.*, pa_users.*  FROM visits \
+                          LEFT JOIN pa_users ON visits.pa_id = pa_users.id \
+                          WHERE dr_id = ? AND is_done = 0 AND is_rejected = 0 AND start_date_time > ?', [id, currentDate], (error, visitResults) => {
                   if (error) {
                     console.error('Error executing query:', error);
                     res.status(500).json({ error: 'Something went wrong' });
                   } else {
-                    doctor.upcoming_visits = visitResults;
-  
+                    const visitResultsData = visitResults.map((visit) => {
+                      const imageData = (visit.img !==null) ? visit.img.toString('base64') : visit.img
+                      return { ...visit, img: imageData };
+                    });
+                    doctor.upcoming_visits = visitResultsData;
                     res.json(doctor);
                   }
                 });
